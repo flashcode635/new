@@ -1,0 +1,101 @@
+/* ChatMain.css */
+.chat-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem 4rem;
+  background: #000000;
+}
+
+.chat-main h1 {
+  font-size: 2.2rem;
+  color: #e4e4e7;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.chat-display{
+   min-height: 200px;
+   width: 70vw;
+   margin-bottom: 10px;
+   padding: 10px;
+   background: #000000;
+   border-radius: 10px;
+}
+.chat-bubble {
+  width: 400px;
+  height: auto;
+  background: #2e2e34;
+  padding: 8px;
+  margin: 5px 400px 0;
+  border-radius: 10px;
+}
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.quick-actions button {
+  background: #2d2d35;
+  color: #e4e4e7;
+  border: 1px solid #3b3b44;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.quick-actions button:hover {
+  background: #3b3b44;
+}
+
+.example-questions {
+  display: grid;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+li{
+    list-style-type: none;
+}
+
+.default-options{
+    width: 70%;
+}
+.example-questions li button{
+  background: #23232a;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: #a1a1aa;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.example-questions li:hover {
+  border-color: #3b3b44;
+}
+
+.privacy-policy {
+  text-align: center;
+  margin-top: 3rem;
+  color: #71717a;
+  font-size: 0.9rem;
+}
+
+.privacy-policy a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .chat-main {
+    padding: 1.5rem;
+  }
+  
+  .chat-main h1 {
+    font-size: 1.8rem;
+  }
+}

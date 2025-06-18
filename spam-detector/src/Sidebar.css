@@ -1,0 +1,90 @@
+/* Sidebar.css */
+.sidebar {
+  width: 260px;
+  min-width: 180px;
+  background: #1a1a1e;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-right: 1px solid #2d2d35;
+  transition: min-width 0.3s ease;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e4e4e7;
+  padding-left: 0.5rem;
+}
+
+.new-chat-btn {
+  background: #3b3b44;
+  width: 180px;
+  margin-left: 20px;
+  color: #e4e4e7;
+  border: none;
+  
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.new-chat-btn:hover {
+  background: #4a4a54;
+}
+
+.search-input {
+  background: #2d2d35;
+  border: 1px solid #3b3b44;
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+  color: #e4e4e7;
+  font-size: 0.9rem;
+}
+
+.nav-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  overflow-y: auto;
+}
+
+.section-title {
+  color: #71717a;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-top: 1rem;
+}
+
+.nav-item {
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  color: #a1a1aa;
+}
+
+.nav-item:hover {
+  background: #2d2d35;
+}
+
+.login-btn {
+  margin-top: auto;
+  background: transparent;
+  border: 1px solid #3b3b44;
+  color: #e4e4e7;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    z-index: 100;
+    height: 100vh;
+  }
+}

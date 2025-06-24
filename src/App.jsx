@@ -1,54 +1,127 @@
-import Sidebar from './Sidebar';
-import ChatMain from './ChatMain';
-import ChatInput from './ChatInput';
 import React, { useState, useRef, useEffect } from "react";
-import './App.css'; // Make sure to create this file as shown below
+import { checkSpam } from './api';
+import './App.css';
 
 function App() {
-  const [messages, setMessages] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-  const chatScrollableRef = useRef(null);
+  const [account, setAccount] = useState({
+    username: '',
+    bio: '',
+    followers: 0,
+    following: 0,
+    posts: 0
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (chatScrollableRef.current) {
-      chatScrollableRef.current.scrollTop = chatScrollableRef.current.scrollHeight;
-    }
-  }, [messages]);
-
-  const handleSendMessage = () => {
-    if (inputValue.trim()) {
-      setMessages(prev => [...prev, { text: inputValue, sender: 'user' }]);
-      setInputValue('');
-    }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAccount(prev => ({
+      ...prev,
+      [name]: name === 'username' || name === 'bio' ? value : Number(value)
+    }));
   };
 
-  const handleOptionClick = (description) => {
-    setInputValue(description);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    setResult(null);
+
+    try {
+      const data = await checkSpam(account);
+      setResult(data);
+    } catch (err) {
+      setError('Failed to check account. Please try again.');
+      console.error('Error:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="app-container">
-      {/* Fixed Sidebar */}
-      <aside className="sidebar-fixed">
-        <Sidebar />
-      </aside>
-
-      {/* Main Chat Area */}
-      <main className="chat-main-area">
-        <div className="chat-scrollable" ref={chatScrollableRef}>
-          <ChatMain messages={messages} onOptionClick={handleOptionClick} />
-        </div>
-        <div className="chat-input-area">
-          <ChatInput
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            onSend={handleSendMessage}
-          />
-          <footer className="privacy-policy">
-            Make sure you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
-          </footer>
-        </div>
-      </main>
+    <div className="app">
+      <div className="container">
+        <h1>Spam Account Detector</h1>
+        
+        <form onSubmit={handleSubmit} className="form">
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              name="username"
+              value={account.username}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Bio</label>
+            <textarea
+              name="bio"
+              value={account.bio}
+              onChange={handleInputChange}
+              rows="3"
+              required
+            />
+          </div>
+          
+          <div className="form-row">
+            <div className="form-group">
+              <label>Followers</label>
+              <input
+                type="number"
+                name="followers"
+                value={account.followers}
+                onChange={handleInputChange}
+                min="0"
+                required
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Following</label>
+              <input
+                type="number"
+                name="following"
+                value={account.following}
+                onChange={handleInputChange}
+                min="0"
+                required
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Posts</label>
+              <input
+                type="number"
+                name="posts"
+                value={account.posts}
+                onChange={handleInputChange}
+                min="0"
+                required
+              />
+            </div>
+          </div>
+          
+          <button type="submit" disabled={isLoading} className="submit-btn">
+            {isLoading ? 'Checking...' : 'Check Account'}
+          </button>
+        </form>
+        
+        {error && <div className="error">{error}</div>}
+        
+        {result !== null && (
+          <div className={`result ${result.isSpam ? 'spam' : 'not-spam'}`}>
+            <h3>Result:</h3>
+            <p>
+              This account is {result.isSpam ? 'likely a SPAM account' : 'NOT a spam account'}.
+            </p>
+            <p>Confidence: {result.isSpam ? 'High' : 'Low'}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

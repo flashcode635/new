@@ -118,7 +118,7 @@ function App() {
             <p>
               This account is {result.isSpam ? 'likely a SPAM account' : 'NOT a spam account'}.
             </p>
-            <p>Confidence: {result.isSpam ? 'High' : 'Low'}</p>
+            <p>Confidence: {result.confidence}%</p>
           </div>
         )}
       </div>
